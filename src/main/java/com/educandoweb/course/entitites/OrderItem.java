@@ -1,6 +1,7 @@
 package com.educandoweb.course.entitites;
 
 import com.educandoweb.course.entitites.pk.OrderItemPk;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -12,20 +13,21 @@ import java.util.Objects;
 public class OrderItem {
 
     @EmbeddedId
-    private OrderItemPk id;
+    private OrderItemPk id = new OrderItemPk();
     private Integer quantity;
     private Double price;
 
     public OrderItem() {
     }
 
-    public OrderItem(Order order, Product product, Integer quantity, Double price) {
+    public OrderItem(Order order, Product product, Integer quantity) {
         id.setOrder(order);
         id.setProduct(product);
         this.quantity = quantity;
-        this.price = price;
+        this.price = product.getPrice();
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }
