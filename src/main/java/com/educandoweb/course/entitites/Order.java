@@ -77,10 +77,9 @@ public class Order implements Serializable {
         this.client = client;
     }
 
-    public Set<OrderItem> getItems(){
+    public Set<OrderItem> getItems() {
         return items;
     }
-
 
     @Override
     public int hashCode() {
