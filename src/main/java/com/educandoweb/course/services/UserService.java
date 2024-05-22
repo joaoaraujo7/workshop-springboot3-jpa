@@ -32,4 +32,18 @@ public class UserService {
         User user = findById(id);
         userRepository.delete(user);
     }
+
+    public User updateUser(Integer userId, User newUser) {
+        User existingUser = userRepository.getReferenceById(userId);
+        updateData(existingUser, newUser);
+        return saveUser(existingUser);
+    }
+
+    private void updateData(User existingUser, User newUser) {
+        existingUser.setName(newUser.getName());
+        existingUser.setEmail(newUser.getEmail());
+        existingUser.setPhone(newUser.getPhone());
+    }
+
+
 }
