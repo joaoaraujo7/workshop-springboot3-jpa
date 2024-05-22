@@ -91,6 +91,14 @@ public class Order implements Serializable {
         return items;
     }
 
+    public double getTotalOrderPrice(){
+        double totalOrderPrice = 0;
+        for(OrderItem item : items) {
+            totalOrderPrice += item.getSubTotal();
+        }
+        return totalOrderPrice;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
