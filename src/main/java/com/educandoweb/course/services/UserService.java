@@ -5,12 +5,15 @@ import java.util.Optional;
 
 import com.educandoweb.course.services.exceptions.DatabaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import com.educandoweb.course.entitites.User;
 import com.educandoweb.course.repositories.UserRepository;
+
+import javax.swing.text.html.parser.Entity;
 
 @Service
 public class UserService {
@@ -41,9 +44,14 @@ public class UserService {
     }
 
     public User updateUser(Integer userId, User newUser) {
-        User existingUser = userRepository.getReferenceById(userId);
-        updateData(existingUser, newUser);
-        return saveUser(existingUser);
+        try {
+            User existingUser = userRepository.getReferenceById(userId);
+            updateData(existingUser, newUser);
+            return saveUser(existingUser);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(userId);
+        }
+
     }
 
     private void updateData(User existingUser, User newUser) {
